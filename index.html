@@ -452,6 +452,35 @@
   }
   .cta-input::placeholder { color: var(--muted); }
   .cta-input:focus { border-color: var(--blue); }
+  .cta-input[aria-invalid="true"] { border-color: #e05c5c; }
+
+  .cta-error-row {
+    max-width: 480px; margin: 8px auto 0; min-height: 20px;
+  }
+  .cta-field-error {
+    font-size: 12px; color: #e05c5c; font-weight: 400;
+  }
+
+  .cta-success {
+    max-width: 480px; margin: 0 auto;
+  }
+  .cta-success-inner {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(126,200,227,.08); border: 1px solid rgba(126,200,227,.3);
+    border-radius: 4px; padding: 20px 24px;
+  }
+  .cta-success-inner svg {
+    width: 28px; height: 28px; stroke: var(--blue); flex-shrink: 0;
+  }
+  .cta-success-title {
+    font-family: var(--font-display); font-size: 15px; font-weight: 700;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .cta-success-sub { font-size: 13px; color: var(--muted); }
+
+  [data-fs-submit-btn]:disabled {
+    opacity: .6; cursor: not-allowed;
+  }
 
   /* ══ FOOTER ══ */
   footer {
@@ -879,10 +908,41 @@
     <div class="tag" style="justify-content:center">Get in Touch</div>
     <h2 class="reveal">Let's build something extraordinary together.</h2>
     <p class="reveal">Drop your email and we'll reach out within 24 hours to discuss your project.</p>
-    <div class="cta-input-row reveal">
-      <input type="email" class="cta-input" placeholder="Your email address" />
-      <button class="btn btn-primary">Start Project <span class="arrow-icon"></span></button>
+
+    <!-- Success state (hidden until submission) -->
+    <div data-fs-success class="cta-success reveal" style="display:none">
+      <div class="cta-success-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>
+          <div class="cta-success-title">You're in — we'll be in touch.</div>
+          <div class="cta-success-sub">Expect a message from us within 24 hours.</div>
+        </div>
+      </div>
     </div>
+
+    <!-- Form -->
+    <form id="contact-form" class="reveal" novalidate>
+      <div class="cta-input-row">
+        <input
+          type="email"
+          id="cta-email"
+          name="email"
+          class="cta-input"
+          placeholder="Your email address"
+          data-fs-field
+          required
+        />
+        <button type="submit" class="btn btn-primary" data-fs-submit-btn>
+          Start Project <span class="arrow-icon"></span>
+        </button>
+      </div>
+      <!-- Inline error -->
+      <div class="cta-error-row">
+        <span data-fs-error="email" class="cta-field-error"></span>
+        <span data-fs-error class="cta-field-error"></span>
+      </div>
+    </form>
+
   </div>
 </section>
 
@@ -1077,6 +1137,17 @@
     </div>
   </div>
 </div>
+
+
+<!-- ── Formspree ── -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', {
+    formElement: '#contact-form',
+    formId: 'mkoawjgy'
+  });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
