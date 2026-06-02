@@ -278,7 +278,7 @@
     position: relative; overflow: hidden;
   }
   .about-inner {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; max-width: 720px;
   }
   .about-img-wrap {
     position: relative;
@@ -491,26 +491,155 @@
   .reveal-delay-4 { transition-delay: .4s; }
 
   /* ══ RESPONSIVE ══ */
+  /* ── Hamburger menu ── */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: all .3s ease;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; top: 76px; left: 0; right: 0;
+    background: rgba(10,10,15,.97); backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--gray2); z-index: 99;
+    padding: 24px 24px 32px; flex-direction: column; gap: 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-display); font-size: 16px; font-weight: 600;
+    color: var(--muted); text-decoration: none; padding: 14px 0;
+    border-bottom: 1px solid var(--gray2); letter-spacing: .04em;
+    transition: color .2s;
+  }
+  .mobile-menu a:last-child { border-bottom: none; margin-top: 16px; }
+  .mobile-menu a:hover { color: var(--blue); }
+  .mobile-menu .btn {
+    align-self: flex-start; margin-top: 8px; font-size: 13px;
+    padding: 12px 24px;
+  }
+
   @media (max-width: 1024px) {
     .services-grid { grid-template-columns: repeat(2,1fr); }
     .why-grid { grid-template-columns: repeat(3,1fr); }
     .footer-top { grid-template-columns: 1fr 1fr; }
-    .testi-grid { grid-template-columns: 1fr; }
-    .about-inner { grid-template-columns: 1fr; gap: 48px; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
   }
+
   @media (max-width: 768px) {
+    /* Nav */
     nav { padding: 0 20px; }
     .nav-links { display: none; }
-    .container { padding: 0 20px; }
+    .nav-cta { display: none; }
+    .nav-hamburger { display: flex; }
+
+    /* Container */
+    .container { padding: 0 16px; }
+
+    /* Hero */
+    #hero { padding: 100px 0 60px; min-height: auto; }
+    h1 { font-size: clamp(38px, 10vw, 60px); letter-spacing: -.03em; }
+    .hero-sub { font-size: 15px; margin-bottom: 36px; }
+    .hero-actions { gap: 12px; }
+    .hero-actions .btn { font-size: 12px; padding: 12px 20px; }
+    .hero-stat-row { gap: 24px; flex-wrap: wrap; margin-top: 48px; padding-top: 28px; }
+    .hero-stat-num { font-size: 30px; }
+    .hero-stat-label { font-size: 11px; }
+
+    /* Section headers */
+    .section-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 48px; }
+    h2 { font-size: clamp(28px, 7vw, 42px); }
+
+    /* Services */
+    #services { padding: 72px 0; }
     .services-grid { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: repeat(2,1fr); }
-    .footer-top { grid-template-columns: 1fr; }
-    .hero-stat-row { gap: 28px; flex-wrap: wrap; }
-    .work-item { grid-template-columns: 1fr; gap: 12px; padding: 24px 20px; }
-    .work-tags { display: none; }
-    .section-header { flex-direction: column; align-items: flex-start; }
+    .service-card { padding: 32px 24px; }
+
+    /* About */
+    #about { padding: 72px 0; }
+    .about-inner { grid-template-columns: 1fr; gap: 32px; }
+    .about-text h2 { margin-bottom: 16px; }
+    .about-text p { font-size: 14px; }
+
+    /* Why */
+    #why { padding: 72px 0; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .why-item { padding: 28px 20px; }
+
+    /* CTA */
+    #cta { padding: 72px 0; }
+    #cta h2 { font-size: clamp(30px, 8vw, 48px); }
+    #cta p { font-size: 15px; }
     .cta-input-row { flex-direction: column; }
+    .cta-input-row .btn { width: 100%; justify-content: center; }
+
+    /* Footer */
+    .footer-top { grid-template-columns: 1fr; gap: 36px; padding-bottom: 40px; }
+    footer { padding: 56px 0 24px; }
+    .footer-bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .footer-bottom div { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    /* Modal */
+    .modal-box { padding: 28px 20px; width: 95%; }
+    .modal-title { font-size: 18px; }
+
+    /* Marquee */
+    .marquee-item { font-size: 11px; gap: 20px; padding: 0 20px; }
   }
+
+  @media (max-width: 480px) {
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+    .hero-actions .btn { width: 100%; justify-content: center; }
+    .why-grid { grid-template-columns: 1fr; }
+    .hero-stat-row { gap: 20px; }
+    .hero-stat-num { font-size: 26px; }
+  }
+
+  /* ══ LEGAL MODALS ══ */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,10,15,.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-box {
+    background: var(--gray1); border: 1px solid var(--gray3);
+    border-radius: 6px; max-width: 680px; width: 90%;
+    max-height: 80vh; display: flex; flex-direction: column;
+    padding: 40px; position: relative;
+    transform: translateY(24px); transition: transform .3s;
+  }
+  .modal-overlay.active .modal-box { transform: translateY(0); }
+  .modal-title {
+    font-family: var(--font-display); font-size: 22px; font-weight: 800;
+    margin-bottom: 24px; color: var(--white); letter-spacing: -.02em;
+  }
+  .modal-body {
+    overflow-y: auto; font-size: 14px; color: var(--muted);
+    line-height: 1.8; font-weight: 300;
+  }
+  .modal-body h3 {
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    color: var(--white); margin: 20px 0 8px; letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); font-size: 22px; line-height: 1;
+    transition: color .2s;
+  }
+  .modal-close:hover { color: var(--white); }
+
 </style>
 </head>
 <body>
@@ -524,13 +653,22 @@
   <a href="#" class="nav-logo">High<span>Level</span></a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
-    <li><a href="#works">Works</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#testimonials">Clients</a></li>
     <li><a href="#cta">Contact</a></li>
   </ul>
   <a href="#cta" class="btn btn-primary nav-cta">Start Project <span class="arrow-icon"></span></a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#why" onclick="closeMobileMenu()">Why Us</a>
+  <a href="#cta" onclick="closeMobileMenu()">Contact</a>
+  <a href="#cta" class="btn btn-primary" onclick="closeMobileMenu()">Start Project <span class="arrow-icon"></span></a>
+</div>
 
 <!-- ── HERO ── -->
 <section id="hero">
@@ -567,10 +705,6 @@
       <div>
         <div class="hero-stat-num">98<span>%</span></div>
         <div class="hero-stat-label">Client Satisfaction</div>
-      </div>
-      <div>
-        <div class="hero-stat-num">8<span>+</span></div>
-        <div class="hero-stat-label">Years in Business</div>
       </div>
       <div>
         <div class="hero-stat-num">40<span>+</span></div>
@@ -679,153 +813,20 @@
 <section id="about">
   <div class="container">
     <div class="about-inner">
-      <div class="about-img-wrap reveal">
-        <div class="about-img-box">
-          <div class="about-img-pattern"></div>
-          <div class="about-img-center">
-            <div class="about-img-logo">HL</div>
-          </div>
-        </div>
-        <div class="about-badge">
-          <div class="about-badge-num">8+</div>
-          <div class="about-badge-label">Years of Excellence</div>
-        </div>
       </div>
       <div class="about-text reveal reveal-delay-2">
         <div class="tag">Our Philosophy</div>
         <h2>Ambitious brands deserve agency-level execution.</h2>
         <p>High Level was built on a simple belief: great digital work should be accessible to businesses with serious ambitions. We combine strategy, design, and engineering into one seamless process.</p>
-        <p>We don't do generic. Every project starts with a deep understanding of your audience, your goals, and the competitive landscape — then we build something that genuinely stands apart.</p>
         <a href="#cta" class="btn btn-primary">Work With Us <span class="arrow-icon"></span></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── WORKS ── -->
-<section id="works">
-  <div class="container">
-    <div class="section-header reveal">
-      <div>
-        <div class="tag">Featured Work</div>
-        <h2>Products designed to perform and convert.</h2>
-      </div>
-      <a href="#cta" class="btn btn-outline">Full Portfolio <span class="arrow-icon"></span></a>
-    </div>
-    <div class="works-list">
 
-      <a href="#" class="work-item reveal">
-        <div class="work-num">01</div>
-        <div class="work-info">
-          <div class="work-title">Nexus Property Platform</div>
-          <div class="work-sub">Interactive real estate webapp with live availability map &amp; admin portal</div>
-        </div>
-        <div class="work-tags">
-          <span class="work-tag">Web App</span>
-          <span class="work-tag">UI/UX</span>
-          <span class="work-tag">System</span>
-        </div>
-      </a>
 
-      <a href="#" class="work-item reveal reveal-delay-1">
-        <div class="work-num">02</div>
-        <div class="work-info">
-          <div class="work-title">Meridian Corporate Website</div>
-          <div class="work-sub">Full-scale rebrand and development for an industrial manufacturing group</div>
-        </div>
-        <div class="work-tags">
-          <span class="work-tag">Website</span>
-          <span class="work-tag">Mobile</span>
-          <span class="work-tag">SEO</span>
-        </div>
-      </a>
 
-      <a href="#" class="work-item reveal reveal-delay-2">
-        <div class="work-num">03</div>
-        <div class="work-info">
-          <div class="work-title">Vertex eCommerce</div>
-          <div class="work-sub">High-conversion apparel store with AI product recommendations and smart inventory</div>
-        </div>
-        <div class="work-tags">
-          <span class="work-tag">eCommerce</span>
-          <span class="work-tag">AI</span>
-          <span class="work-tag">UI/UX</span>
-        </div>
-      </a>
-
-      <a href="#" class="work-item reveal reveal-delay-3">
-        <div class="work-num">04</div>
-        <div class="work-info">
-          <div class="work-title">Orion Finance Dashboard</div>
-          <div class="work-sub">Internal analytics platform with real-time reporting and role-based access</div>
-        </div>
-        <div class="work-tags">
-          <span class="work-tag">Web App</span>
-          <span class="work-tag">Dashboard</span>
-          <span class="work-tag">System</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── TESTIMONIALS ── -->
-<section id="testimonials">
-  <div class="container">
-    <div class="section-header reveal">
-      <div>
-        <div class="tag">Client Testimonials</div>
-        <h2>What our clients actually say.</h2>
-      </div>
-    </div>
-    <div class="testi-grid">
-
-      <div class="testi-card reveal">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-quote">"High Level completely transformed our digital presence. The new platform handles thousands of daily users flawlessly and our conversion rate jumped significantly within the first month."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">OC</div>
-          <div>
-            <div class="testi-name">Olivia Carter</div>
-            <div class="testi-role">COO — Logistics Group, UK</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card reveal reveal-delay-1">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-quote">"The team delivered a complete social media system — content calendar, visuals, campaigns. Monthly reporting kept us aligned. Results were measurable and fast."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">MW</div>
-          <div>
-            <div class="testi-name">Markus Weber</div>
-            <div class="testi-role">Marketing Lead — Consulting, Germany</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card reveal reveal-delay-2">
-        <div class="testi-stars">
-          <span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span>
-        </div>
-        <p class="testi-quote">"Exceptional work. They built our store, integrated an AI support agent, and connected it all to our back-office. Very responsive team, zero compromises on quality."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">JT</div>
-          <div>
-            <div class="testi-name">James Thompson</div>
-            <div class="testi-role">Founder — Digital Retail, USA</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ── WHY ── -->
 <section id="why">
@@ -907,29 +908,22 @@
         <div class="footer-col-title">Company</div>
         <ul class="footer-links">
           <li><a href="#">About Us</a></li>
-          <li><a href="#">Our Work</a></li>
-          <li><a href="#">Clients</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-col-title">Contact</div>
         <ul class="footer-links">
-          <li><a href="#">hello@highlevel.agency</a></li>
-          <li><a href="#">+1 (800) 555 0199</a></li>
-          <li><a href="#">WhatsApp</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">mkhighlevel@gmail.com</a></li>
+          <li><a href="#">+389 77 703 222</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 High Level Agency. All rights reserved.</span>
       <div style="display:flex;gap:24px">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
+        <a href="#" onclick="openModal('privacy');return false;">Privacy</a>
+        <a href="#" onclick="openModal('terms');return false;">Terms</a>
+        <a href="#" onclick="openModal('cookies');return false;">Cookies</a>
       </div>
     </div>
   </div>
@@ -969,6 +963,120 @@
       ? 'rgba(10,10,15,.96)'
       : 'rgba(10,10,15,.75)';
   });
+
+  // ── Legal Modals
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(m => {
+        m.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+
+  // ── Mobile Menu
+  const hamburger = document.getElementById('navHamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  // Close menu on scroll
+  window.addEventListener('scroll', () => {
+    if (mobileMenu.classList.contains('open')) closeMobileMenu();
+  }, { passive: true });
+
 </script>
+
+<!-- ── LEGAL MODALS ── -->
+<div class="modal-overlay" id="modal-privacy">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('privacy')">&times;</button>
+    <div class="modal-title">Privacy Policy</div>
+    <div class="modal-body">
+      <h3>Overview</h3>
+      <p>High Level Agency ("we", "us", or "our") is committed to protecting your personal information. This policy explains how we collect, use, and safeguard data you provide when you engage with our services.</p>
+      <h3>Information We Collect</h3>
+      <p>We collect information you voluntarily provide — such as your name, email address, and project details — when you contact us through our website, email, or other communication channels. We may also collect technical data such as browser type and IP address through standard server logs.</p>
+      <h3>How We Use Your Information</h3>
+      <p>Your information is used exclusively to respond to your inquiries, provide our services, and communicate updates relevant to your project. We do not sell, trade, or share your personal data with third parties for marketing purposes.</p>
+      <h3>Data Retention</h3>
+      <p>We retain your information only as long as necessary to fulfil the purposes outlined above or as required by law. You may request deletion of your data at any time by contacting us at mkhighlevel@gmail.com.</p>
+      <h3>Security</h3>
+      <p>We implement industry-standard measures to protect your data. However, no electronic transmission is completely secure, and we cannot guarantee absolute security.</p>
+      <h3>Contact</h3>
+      <p>For privacy-related inquiries, please contact us at mkhighlevel@gmail.com or call +389 77 703 222.</p>
+      <p style="margin-top:20px;font-size:12px;">Last updated: June 2025</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-terms">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('terms')">&times;</button>
+    <div class="modal-title">Terms of Service</div>
+    <div class="modal-body">
+      <h3>Acceptance</h3>
+      <p>By accessing or using our website and services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.</p>
+      <h3>Services</h3>
+      <p>High Level Agency provides digital services including website design and development, mobile application development, social media management, eCommerce solutions, AI automation, and CRM systems. Specific deliverables, timelines, and pricing are defined in individual project agreements.</p>
+      <h3>Intellectual Property</h3>
+      <p>Upon full payment, clients receive ownership of all custom deliverables created for their project. High Level retains the right to display completed work in its portfolio unless otherwise agreed in writing. All pre-existing tools, frameworks, and proprietary processes remain our property.</p>
+      <h3>Client Responsibilities</h3>
+      <p>Clients are responsible for providing accurate information, timely feedback, and required assets. Delays caused by the client may affect agreed timelines and could incur additional costs.</p>
+      <h3>Limitation of Liability</h3>
+      <p>High Level Agency's liability is limited to the fees paid for the specific service in question. We are not liable for indirect, incidental, or consequential damages arising from the use of our services.</p>
+      <h3>Governing Law</h3>
+      <p>These terms are governed by the laws of North Macedonia. Any disputes shall be resolved in the courts of Skopje.</p>
+      <h3>Contact</h3>
+      <p>For questions, reach us at mkhighlevel@gmail.com or +389 77 703 222.</p>
+      <p style="margin-top:20px;font-size:12px;">Last updated: June 2025</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cookies">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('cookies')">&times;</button>
+    <div class="modal-title">Cookie Policy</div>
+    <div class="modal-body">
+      <h3>What Are Cookies</h3>
+      <p>Cookies are small text files stored on your device when you visit a website. They help the site function correctly, remember your preferences, and provide analytics about site usage.</p>
+      <h3>How We Use Cookies</h3>
+      <p>Our website uses only essential cookies required for the site to operate. We do not use third-party advertising or tracking cookies. Any analytics data collected is anonymised and used solely to improve our site's performance and user experience.</p>
+      <h3>Types of Cookies We Use</h3>
+      <p><strong style="color:var(--white)">Essential cookies</strong> — necessary for the website to function and cannot be switched off. They are typically set in response to actions you take, such as submitting a contact form.</p>
+      <h3>Managing Cookies</h3>
+      <p>You can control and delete cookies through your browser settings. Disabling cookies may affect some functionality of the site. For guidance, visit the help section of your browser.</p>
+      <h3>Contact</h3>
+      <p>If you have questions about our use of cookies, contact us at mkhighlevel@gmail.com.</p>
+      <p style="margin-top:20px;font-size:12px;">Last updated: June 2025</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
