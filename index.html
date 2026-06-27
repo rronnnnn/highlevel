@@ -320,6 +320,17 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
 .cta__headline{font-family:var(--display);font-weight:500;
   font-size:clamp(2.5rem,8vw,6.5rem);line-height:0.95;letter-spacing:-0.05em;max-width:15ch;}
 .cta__headline .line-mask .word{will-change:transform,opacity;}
+/* CTA headline glow — the only glowing element on the page (intentional focal
+   point). drop-shadow() on the wrapper so it layers over any gradient text fill.
+   The slow breathe is gated off for reduced-motion users by the global block. */
+.cta__headline{
+  filter:drop-shadow(0 0 40px rgba(255,255,255,0.12)) drop-shadow(0 0 120px rgba(255,255,255,0.06));
+  animation:glow-breathe 4s ease-in-out infinite;
+}
+@keyframes glow-breathe{
+  0%,100%{filter:drop-shadow(0 0 40px rgba(255,255,255,0.10)) drop-shadow(0 0 120px rgba(255,255,255,0.04));}
+  50%{filter:drop-shadow(0 0 60px rgba(255,255,255,0.18)) drop-shadow(0 0 160px rgba(255,255,255,0.08));}
+}
 .cta__form{display:flex;flex-direction:column;gap:18px;max-width:560px;width:100%;}
 .field{display:flex;gap:12px;border-bottom:1px solid var(--divider);padding-bottom:14px;
   transition:border-color .3s ease;flex-wrap:wrap;}
@@ -713,7 +724,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
       <div class="footer__col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="mailto:hello@highlevel.mk">hello@highlevel.mk</a></li>
+          <li><a href="mailto:contact@highlevel.mk">contact@highlevel.mk</a></li>
           <li><a href="https://instagram.com/highlevelmk" target="_blank" rel="noopener">@highlevelmk</a></li>
           <li><span style="color:var(--faint)">Skopje, North Macedonia</span></li>
         </ul>
@@ -750,7 +761,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
       <h4>Analytics</h4>
       <p>We may use privacy-respecting analytics to understand how the site is used. No personally identifying information is stored.</p>
       <h4>Your rights</h4>
-      <p>You can request access to, correction of, or deletion of your data at any time by emailing hello@highlevel.mk.</p>
+      <p>You can request access to, correction of, or deletion of your data at any time by emailing contact@highlevel.mk.</p>
     </div>
   </div>
 </div>
