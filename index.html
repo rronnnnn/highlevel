@@ -508,6 +508,13 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   /* Work: cards stack vertically, full-width images, no horizontal scroll */
   .work__grid{grid-template-columns:1fr;}
 
+  /* Tighten vertical rhythm — strip dead space on small screens */
+  .manifesto__inner{min-height:auto;padding-block:clamp(80px,14vh,120px);}
+  .approach__grid{padding-block:clamp(56px,9vh,96px);}
+  .cta__inner{padding-block:clamp(64px,11vh,120px);gap:clamp(32px,5vh,52px);}
+  .work__grid{padding-bottom:clamp(56px,9vh,96px);}
+  .services__head,.work__head{padding-top:clamp(40px,6vh,64px);}
+
   .footer__cols{grid-template-columns:1fr;gap:36px;}
   .footer__brand{grid-column:auto;}
 }
@@ -755,7 +762,6 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   <section class="work" id="work">
     <div class="work__head">
       <h2>Our Work</h2>
-      <span class="work__count">04 projects</span>
     </div>
     <div class="work__grid">
 
@@ -806,7 +812,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
           <h3 class="work-card__name">Popoff</h3>
           <a class="work-card__arrow" href="https://popoff.mk" target="_blank" rel="noopener" aria-label="Visit Popoff">↗</a>
         </div>
-        <p class="work-card__desc">Brand storefront with a clean, conversion-focused shopping experience</p>
+        <p class="work-card__desc">Online Shop</p>
         <div class="panel__tags work-card__tags"><span>E-Commerce</span><span>Web Store</span><span>Web App</span></div>
       </article>
 
