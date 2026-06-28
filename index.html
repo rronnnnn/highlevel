@@ -292,6 +292,78 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   border:1px solid var(--divider);border-radius:100px;padding:5px 11px;}
 
 /* ============================================================
+   WORK
+   ============================================================ */
+.work{border-top:1px solid var(--divider);}
+.work__head{padding:clamp(48px,8vh,96px) var(--pad) clamp(28px,4vh,48px);
+  width:100%;max-width:var(--maxw);margin-inline:auto;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+.work__head h2{font-family:var(--display);font-weight:500;
+  font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-0.04em;line-height:1;}
+.work__count{font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:.1em;}
+.work__grid{width:100%;max-width:var(--maxw);margin-inline:auto;
+  padding:0 var(--pad) clamp(80px,12vh,160px);
+  display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(28px,3vw,48px);}
+.work-card{transition:transform .3s cubic-bezier(.2,.8,.2,1);}
+.work-card:hover{transform:translateY(-4px);}
+.work-card__img{aspect-ratio:16/9;width:100%;object-fit:cover;
+  border:1px solid var(--divider);border-radius:0;overflow:hidden;background:#0c0c0c;
+  display:flex;align-items:center;justify-content:center;}
+.work-card__img span{font-family:var(--display);font-weight:500;color:var(--faint);
+  font-size:clamp(1.1rem,2vw,1.6rem);letter-spacing:-0.025em;}
+.work-card__top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-top:22px;}
+.work-card__name{font-family:var(--display);font-weight:500;
+  font-size:clamp(1.4rem,2.2vw,2rem);letter-spacing:-0.035em;line-height:1.05;}
+.work-card__arrow{color:var(--faint);font-size:20px;line-height:1;flex:none;
+  opacity:0;pointer-events:none;transition:color .25s ease;}
+.work-card[data-href] .work-card__arrow{opacity:1;pointer-events:auto;}
+.work-card[data-href]:hover .work-card__arrow{color:var(--text);}
+.work-card__desc{color:var(--text-2);font-size:15px;line-height:1.55;margin-top:12px;max-width:34ch;}
+.work-card__tags{margin-top:18px;}
+.work-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid var(--divider);
+}
+.work-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+}
+.work-img-wrap:hover .work-img {
+  transform: scale(1.03);
+}
+.work-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8,8,8,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+}
+.work-overlay span {
+  color: #f4f4f3;
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 10px 20px;
+  border-radius: 100px;
+}
+.work-img-wrap:hover .work-overlay {
+  opacity: 1;
+}
+
+/* ============================================================
    APPROACH
    ============================================================ */
 .approach{border-top:1px solid var(--divider);}
@@ -433,6 +505,9 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   .panel{flex:0 0 auto;width:100%;min-height:auto;border-left:none;
     border-bottom:1px solid var(--divider);padding:clamp(30px,8vw,44px) var(--pad);gap:28px;}
 
+  /* Work: cards stack vertically, full-width images, no horizontal scroll */
+  .work__grid{grid-template-columns:1fr;}
+
   .footer__cols{grid-template-columns:1fr;gap:36px;}
   .footer__brand{grid-column:auto;}
 }
@@ -468,7 +543,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
       <span class="brand__word">High Level</span>
     </a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="#services">Work</a>
+      <a href="#work">Work</a>
       <a href="#approach">Approach</a>
       <a class="handle" href="https://instagram.com/highlevel.mk" target="_blank" rel="noopener">@highlevel.mk</a>
       <a class="cta-btn" href="#cta">Start Project</a>
@@ -481,7 +556,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
 
 <!-- ============ MOBILE MENU ============ -->
 <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" aria-hidden="true">
-  <a href="#services" data-mclose>Work</a>
+  <a href="#work" data-mclose>Work</a>
   <a href="#approach" data-mclose>Approach</a>
   <a href="#cta" data-mclose>Start Project</a>
   <a class="handle" href="https://instagram.com/highlevel.mk" target="_blank" rel="noopener" data-mclose>@highlevel.mk · Instagram</a>
@@ -673,6 +748,85 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section class="work" id="work">
+    <div class="work__head">
+      <h2>Our Work</h2>
+      <span class="work__count">04 projects</span>
+    </div>
+    <div class="work__grid">
+
+      <article class="work-card" data-href="https://studiomelisa.com">
+        <div class="work-img-wrap">
+          <img src="https://raw.githubusercontent.com/rronnnnn/highlevel/main/melisa.png"
+               alt="Studio Melisa preview"
+               class="work-img">
+          <a href="https://studiomelisa.com" target="_blank" rel="noopener" class="work-overlay">
+            <span>View Live ↗</span>
+          </a>
+        </div>
+        <div class="work-card__top">
+          <h3 class="work-card__name">Studio Melisa</h3>
+          <a class="work-card__arrow" href="https://studiomelisa.com" target="_blank" rel="noopener" aria-label="Visit Studio Melisa">↗</a>
+        </div>
+        <p class="work-card__desc">Nail salon booking platform with multi-worker scheduling</p>
+        <div class="panel__tags work-card__tags"><span>Booking System</span><span>Web App</span><span>Supabase</span></div>
+      </article>
+
+      <article class="work-card" data-href="https://inntrackbetaversion.vercel.app">
+        <div class="work-img-wrap">
+          <img src="https://raw.githubusercontent.com/rronnnnn/highlevel/main/inntrack.png"
+               alt="InnTrack preview"
+               class="work-img">
+          <a href="https://inntrackbetaversion.vercel.app" target="_blank" rel="noopener" class="work-overlay">
+            <span>View Live ↗</span>
+          </a>
+        </div>
+        <div class="work-card__top">
+          <h3 class="work-card__name">InnTrack</h3>
+          <a class="work-card__arrow" href="https://inntrackbetaversion.vercel.app" target="_blank" rel="noopener" aria-label="Visit InnTrack">↗</a>
+        </div>
+        <p class="work-card__desc">Motel reservation SaaS with real-time availability and housekeeping</p>
+        <div class="panel__tags work-card__tags"><span>SaaS</span><span>PWA</span><span>Next.js</span></div>
+      </article>
+
+      <article class="work-card" data-href="https://popoff.mk">
+        <div class="work-img-wrap">
+          <img src="https://raw.githubusercontent.com/rronnnnn/highlevel/main/popoff.png"
+               alt="Popoff preview"
+               class="work-img">
+          <a href="https://popoff.mk" target="_blank" rel="noopener" class="work-overlay">
+            <span>View Live ↗</span>
+          </a>
+        </div>
+        <div class="work-card__top">
+          <h3 class="work-card__name">Popoff</h3>
+          <a class="work-card__arrow" href="https://popoff.mk" target="_blank" rel="noopener" aria-label="Visit Popoff">↗</a>
+        </div>
+        <p class="work-card__desc">Brand storefront with a clean, conversion-focused shopping experience</p>
+        <div class="panel__tags work-card__tags"><span>E-Commerce</span><span>Web Store</span><span>Web App</span></div>
+      </article>
+
+      <article class="work-card" data-href="https://motionfitness.vercel.app">
+        <div class="work-img-wrap">
+          <img src="https://raw.githubusercontent.com/rronnnnn/highlevel/main/motion.png"
+               alt="Motion preview"
+               class="work-img">
+          <a href="https://motionfitness.vercel.app" target="_blank" rel="noopener" class="work-overlay">
+            <span>View Live ↗</span>
+          </a>
+        </div>
+        <div class="work-card__top">
+          <h3 class="work-card__name">Motion</h3>
+          <a class="work-card__arrow" href="https://motionfitness.vercel.app" target="_blank" rel="noopener" aria-label="Visit Motion">↗</a>
+        </div>
+        <p class="work-card__desc">Fitness brand site with immersive WebGL visuals and a bold landing experience</p>
+        <div class="panel__tags work-card__tags"><span>Fitness</span><span>WebGL</span><span>Landing Page</span></div>
+      </article>
+
     </div>
   </section>
 
@@ -1051,6 +1205,12 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
       });
     });
 
+    /* Work cards rise + fade — same subtle distance as approach items, gentle stagger */
+    gsap.from('.work-card', {
+      y: 22, opacity: 0, duration: 0.8, ease: EASE, stagger: 0.06,
+      scrollTrigger: { trigger: '.work__grid', start: 'top 85%' }
+    });
+
     /* CTA words rise in — headline-tier reveal, same expo signature as the hero */
     gsap.set('#ctaHeadline .word', { yPercent: 135 });
     gsap.to('#ctaHeadline .word', {
@@ -1078,6 +1238,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
     sectionReveal('.stats__grid .stat', '.stats', 'top 82%');
     sectionReveal('.services__head > *', '.services__head', 'top 85%');
     sectionReveal('.approach__heading > *', '.approach', 'top 80%', 0.05);
+    sectionReveal('.work__head > *', '.work__head', 'top 85%');
     sectionReveal('.cta__form', '.cta__form', 'top 88%', 0);
   });
 
