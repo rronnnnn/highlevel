@@ -490,9 +490,10 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   .burger{display:flex;}
 
   /* Hero: top-aligned, exact nav-height top padding */
-  .hero{justify-content:flex-start;padding-top:var(--nav-h);min-height:auto;padding-bottom:clamp(60px,10vh,100px);}
+  .hero{justify-content:flex-start;padding-top:var(--nav-h);min-height:100svh;}
   .hero__inner{padding-top:8px;padding-bottom:40px;gap:26px;}
-  .hero__corner{display:none;}
+  .hero__corner{left:var(--pad);right:auto;text-align:left;}
+  .hero__corner-label{display:none;}
 
   .stats__grid{grid-template-columns:repeat(2,1fr);}
   .stat{border-left:none;}
@@ -601,7 +602,7 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
     </div>
 
     <div class="hero__corner mono" aria-hidden="true">
-      07 services · 01 standard
+      <span class="hero__corner-label">07 services · 01 standard</span>
       <div class="hero__scroll-i">↓ scroll</div>
     </div>
   </section>
@@ -1286,10 +1287,12 @@ html{scrollbar-color:#2a2a2a var(--bg);scrollbar-width:thin;}
   /* ----- MOBILE: manifesto fill, no pin ----- */
   mm.add('(max-width: 768px) and (prefers-reduced-motion: no-preference)', function(){
     gsap.to(mChars, {
-      opacity: 1, ease: 'none',
-      duration: 1, stagger: 0.24,
+      opacity: 1, ease: 'power2.out',
+      duration: 0.6, stagger: 0.02,
       scrollTrigger: {
-        trigger: '.manifesto', start: 'top 80%', end: 'bottom 60%', scrub: 0.6
+        trigger: '.manifesto',
+        start: 'top 90%',
+        toggleActions: 'play none none none'
       }
     });
     /* ensure no leftover horizontal transform on services */
