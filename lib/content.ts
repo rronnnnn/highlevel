@@ -115,7 +115,7 @@ export const work = [
       "Nail salon booking platform with multi-worker scheduling.",
     tags: ["Booking System", "Web App", "Supabase"],
     link: "https://studiomelisa.com",
-    image: "/work/studio-melisa-v2.png",
+    image: "/work/studio-melisa-v3.jpg",
   },
   {
     name: "InnTrack",
@@ -123,14 +123,14 @@ export const work = [
       "Motel reservation SaaS with real-time availability and housekeeping.",
     tags: ["SaaS", "PWA", "Next.js"],
     link: "https://inntrackpage.vercel.app",
-    image: "/work/inntrack-v2.png",
+    image: "/work/inntrack-v3.jpg",
   },
   {
     name: "Popoff",
     description: "Online Shop.",
     tags: ["E-Commerce", "Web Store", "Web App"],
     link: "https://popoff.mk",
-    image: "/work/popoff-v2.png",
+    image: "/work/popoff-v3.jpg",
   },
   {
     name: "Motion",
@@ -138,7 +138,7 @@ export const work = [
       "Fitness brand site with immersive WebGL visuals and a bold landing experience.",
     tags: ["Fitness", "WebGL", "Landing Page"],
     link: "https://motionfitness.vercel.app",
-    image: "/work/motion-v2.png",
+    image: "/work/motion-v3.jpg",
   },
 ];
 

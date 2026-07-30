@@ -1,12 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { footer, legalPolicies } from "@/lib/content";
+import { getGsap } from "@/lib/gsap";
 
 type PolicyKey = keyof typeof legalPolicies;
 
 export default function Footer() {
   const [openPolicy, setOpenPolicy] = useState<PolicyKey | null>(null);
+  const bigTextRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const { gsap } = getGsap();
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion || !bigTextRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        bigTextRef.current,
+        { xPercent: -14 },
+        {
+          xPercent: 14,
+          ease: "none",
+          scrollTrigger: {
+            trigger: document.documentElement,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <footer className="relative w-full overflow-hidden border-t border-hairline bg-background px-6 pt-16 md:pt-20">
@@ -45,8 +74,11 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="pointer-events-none mt-16 select-none text-center">
-        <span className="display-heavy block text-[16vw] leading-none text-foreground/[0.06] md:text-[9vw]">
+      <div className="pointer-events-none mt-16 select-none overflow-hidden text-center">
+        <span
+          ref={bigTextRef}
+          className="display-heavy inline-block whitespace-nowrap text-[22vw] leading-none text-white md:text-[13vw]"
+        >
           HIGH LEVEL
         </span>
       </div>

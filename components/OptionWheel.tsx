@@ -1,12 +1,13 @@
 "use client";
 
-/* eslint-disable react-hooks/refs, react-hooks/immutability --
- * This component intentionally keeps "latest value" refs (cfgRef, onChangeRef)
- * updated on every render so imperative rAF/event callbacks always read fresh
- * config without re-subscribing, and runFrame re-schedules itself by name in
- * a standard rAF-loop recursion. Neither affects render output. */
-
-import { useRef, useState, useCallback, useEffect } from "react";
+import {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import "./OptionWheel.css";
 
 const DEFAULT_ITEMS = [
@@ -41,6 +42,13 @@ type WheelConfig = {
   soundVolume: number;
 };
 
+export type OptionWheelHandle = {
+  /** Drive the wheel from an external scroll source (e.g. page scroll while
+   * the cursor isn't over the wheel itself). `snap` rounds to the nearest
+   * item; pass false while scroll is in progress and true once it settles. */
+  setPosition: (value: number, snap: boolean) => void;
+};
+
 export type OptionWheelProps = {
   items?: string[];
   defaultSelected?: number;
@@ -64,7 +72,7 @@ export type OptionWheelProps = {
   className?: string;
 };
 
-const OptionWheel = ({
+const OptionWheel = forwardRef<OptionWheelHandle, OptionWheelProps>(function OptionWheel({
   items = DEFAULT_ITEMS,
   defaultSelected = 3,
   onChange,
@@ -85,7 +93,7 @@ const OptionWheel = ({
   soundUrl = "",
   soundVolume = 0.5,
   className = "",
-}: OptionWheelProps) => {
+}, ref) {
   const rootRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const posRef = useRef(defaultSelected);
@@ -96,7 +104,13 @@ const OptionWheel = ({
   const onChangeRef = useRef(onChange);
   const selectedRef = useRef(defaultSelected);
   const wheelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const dragRef = useRef<{ y: number; start: number; id: number } | null>(null);
+  const dragRef = useRef<{
+    x: number;
+    y: number;
+    start: number;
+    id: number;
+    isTouch: boolean;
+  } | null>(null);
   const dragMovedRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUrlRef = useRef("");
@@ -222,6 +236,10 @@ const OptionWheel = ({
     [startLoop, playTick]
   );
 
+  useImperativeHandle(ref, () => ({
+    setPosition: (value, snap) => applyTarget(value, snap),
+  }), [applyTarget]);
+
   // Wheel / touchpad scrolling, registered manually so it can be non-passive.
   useEffect(() => {
     const el = rootRef.current;
@@ -245,8 +263,12 @@ const OptionWheel = ({
   }, [applyTarget]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!cfgRef.current.draggable) return;
-    dragRef.current = { y: e.clientY, start: targetRef.current, id: e.pointerId };
+    const isTouch = e.pointerType === "touch";
+    // touch always gets a drag session regardless of `draggable` — it drives
+    // selection via horizontal movement (see handlePointerMove), which never
+    // competes with the page's vertical scroll, so it's safe to always allow
+    if (!isTouch && !cfgRef.current.draggable) return;
+    dragRef.current = { x: e.clientX, y: e.clientY, start: targetRef.current, id: e.pointerId, isTouch };
     dragMovedRef.current = false;
     setIsDragging(true);
   }, []);
@@ -255,14 +277,21 @@ const OptionWheel = ({
     (e: React.PointerEvent<HTMLDivElement>) => {
       const drag = dragRef.current;
       if (!drag) return;
+      const dx = e.clientX - drag.x;
       const dy = e.clientY - drag.y;
-      if (!dragMovedRef.current && Math.abs(dy) > 4) {
+      // mouse/trackpad drags vertically (rowH-scaled, matches the visual
+      // curve); touch drags horizontally instead — vertical touch movement
+      // is left alone so it keeps scrolling the page normally, and only a
+      // clearly horizontal swipe claims the gesture for the wheel
+      const delta = drag.isTouch ? dx : dy;
+      if (!dragMovedRef.current && Math.abs(delta) > 4) {
+        if (drag.isTouch && Math.abs(dx) <= Math.abs(dy)) return;
         dragMovedRef.current = true;
-        // Capture only once a real drag starts, so plain clicks still reach
-        // the items and navigate to them.
+        // Capture only once a real drag starts, so plain clicks/taps still
+        // reach the items and navigate to them.
         rootRef.current?.setPointerCapture(drag.id);
       }
-      if (dragMovedRef.current) applyTarget(drag.start - dy / cfgRef.current.rowH, false);
+      if (dragMovedRef.current) applyTarget(drag.start - delta / cfgRef.current.rowH, false);
     },
     [applyTarget]
   );
@@ -354,6 +383,6 @@ const OptionWheel = ({
       ))}
     </div>
   );
-};
+});
 
 export default OptionWheel;

@@ -1,16 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import OptionWheel from "@/components/OptionWheel";
+import OptionWheel, { type OptionWheelHandle } from "@/components/OptionWheel";
 import { getGsap } from "@/lib/gsap";
 import { serviceLabels } from "@/lib/content";
 
 // how much scroll distance (as % of viewport height) the section holds for —
 // gives the wheel room to be scrolled through a couple times before releasing
 const PIN_DISTANCE = 200;
+// same idea but shorter, since the mobile section isn't a full h-screen pin
+const PIN_DISTANCE_MOBILE = 120;
+// how many full passes over the item list one pin distance covers
+const CYCLES_PER_PIN = 2;
+// delay after the last scroll tick before snapping to the nearest item
+const SETTLE_DELAY_MS = 140;
 
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const wheelRef = useRef<OptionWheelHandle>(null);
+  const settleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [fontSize, setFontSize] = useState(6.4);
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
 
@@ -39,6 +47,18 @@ export default function ServicesSection() {
     ).matches;
     if (prefersReducedMotion) return;
 
+    // Drives the wheel from real page-scroll progress through the pin, so it
+    // advances no matter where the cursor is — not just while hovering the
+    // wheel itself, which is all the element's own local `wheel` listener
+    // can see. Runs on both breakpoints; only the pin distance differs.
+    const driveFromScroll = (progress: number) => {
+      wheelRef.current?.setPosition(progress * serviceLabels.length * CYCLES_PER_PIN, false);
+      if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
+      settleTimerRef.current = setTimeout(() => {
+        wheelRef.current?.setPosition(progress * serviceLabels.length * CYCLES_PER_PIN, true);
+      }, SETTLE_DELAY_MS);
+    };
+
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": () => {
@@ -48,12 +68,26 @@ export default function ServicesSection() {
             end: `+=${PIN_DISTANCE}%`,
             pin: true,
             anticipatePin: 1,
+            onUpdate: (self) => driveFromScroll(self.progress),
+          });
+        },
+        "(max-width: 767px)": () => {
+          ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top top",
+            end: `+=${PIN_DISTANCE_MOBILE}%`,
+            pin: true,
+            anticipatePin: 1,
+            onUpdate: (self) => driveFromScroll(self.progress),
           });
         },
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
+    };
   }, []);
 
   return (
@@ -71,6 +105,7 @@ export default function ServicesSection() {
 
       <div className="mt-8 h-[420px] w-full md:mt-6 md:h-auto md:flex-1">
         <OptionWheel
+          ref={wheelRef}
           items={serviceLabels}
           defaultSelected={0}
           fontSize={fontSize}

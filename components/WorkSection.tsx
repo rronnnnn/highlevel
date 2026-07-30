@@ -8,6 +8,7 @@ import { work } from "@/lib/content";
 
 export default function WorkSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const parallaxRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -18,6 +19,17 @@ export default function WorkSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.to(headingRef.current, {
+          opacity: 0.55,
+          scale: 1.02,
+          duration: 2.4,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+
       parallaxRefs.current.forEach((el) => {
         if (!el) return;
         gsap.fromTo(
@@ -47,15 +59,12 @@ export default function WorkSection() {
       className="relative w-full border-t border-hairline bg-background px-6 py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <motion.h2
+        <h2
+          ref={headingRef}
           className="display-heavy mb-16 bg-gradient-to-r from-white via-white/60 to-white/25 bg-clip-text text-[10vw] leading-none text-transparent sm:text-6xl md:mb-20 md:text-7xl"
-          initial={{ opacity: 0, filter: "blur(16px)", y: 16 }}
-          whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 1.1, ease: "easeOut" }}
         >
           Our Work
-        </motion.h2>
+        </h2>
 
         <div>
           {work.map((project, i) => (
@@ -82,7 +91,7 @@ export default function WorkSection() {
                       src={project.image}
                       alt={project.name}
                       fill
-                      sizes="(min-width: 768px) 72vw, 92vw"
+                      sizes="(min-width: 768px) 90vw, 100vw"
                       className="object-cover"
                     />
                   </div>
