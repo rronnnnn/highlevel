@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# High Level
 
-## Getting Started
+The website for **High Level**, a full-service digital studio based in North Macedonia.
 
-First, run the development server:
+**Live:** [highlevel.mk](https://www.highlevel.mk)
+
+![High Level](./public/logo.png)
+
+## About
+
+A single-page marketing site built around a monochrome editorial aesthetic — heavy type, generous whitespace, and scroll-driven motion. The layout is deliberately restrained; the movement carries the personality.
+
+## Stack
+
+| | |
+|---|---|
+| Framework | Next.js (App Router) |
+| Language | TypeScript |
+| Styling | CSS / Tailwind |
+| Animation | GSAP + ScrollTrigger |
+| Hosting | Vercel |
+| DNS | zemi.mk |
+
+## Features
+
+- Scroll-driven hero with layered parallax objects
+- GSAP ScrollTrigger timelines for section reveals and pinned sequences
+- Responsive from 320px up, with motion tuned separately for touch devices
+- Work grid linking to live client projects
+- Contact form
+- Optimised images through `next/image`
+
+## Running locally
 
 ```bash
+git clone https://github.com/rronnnnn/highlevel.git
+cd highlevel
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run start   # serve the production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+app/          routes and layout
+components/   section and UI components
+public/       logo, hero objects, work thumbnails
+styles/       global styles and tokens
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Selected work featured on the site
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Studio Melisa](https://studiomelisa.com) — salon booking platform
+- [InnTrack](https://inntrackpage.vercel.app) — property management SaaS
+- [Popoff](https://popoff.mk) — e-commerce
+- [Motion](https://motionfitness.vercel.app) — WebGL fitness landing page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+mkhighlevel@gmail.com · [@highlevel.mk](https://instagram.com/highlevel.mk)
